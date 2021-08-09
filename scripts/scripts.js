@@ -21,10 +21,15 @@ module.exports = function (robot) {
     return msg.send('I like big bots and I cannot lie!')
   })
 
-  const arrays = []
+  const memorisedThings = []
   robot.respond(/memorise (.*)/i, function (msg) {
     const token = msg.match[1]
-    return msg.send('I like big bots and I cannot lie!')
+    memorisedThings.push(token)
+    return msg.send('Okay, I will remember ' + token)
+  })
+
+  robot.respond(/recall/i, function (msg) {
+    return msg.send(memorisedThings.join('\n'))
   })
 
   /* Random Example
