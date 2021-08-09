@@ -17,9 +17,19 @@ module.exports = function (robot) {
     return msg.send('I love writing code!')
   })
 
+  robot.hear(/lie/i, function (msg) {
+    return msg.send('I like big bots and I cannot lie!')
+  })
+
+  const arrays = []
+  robot.respond(/memorise (.*)/i, function (msg) {
+    const token = msg.match[1]
+    return msg.send('I like big bots and I cannot lie!')
+  })
+
   /* Random Example
     If a user asks what is your favourite x, the bot respond according to the question */
-  robot.respond(/what is your favourite (.*)/, function (msg) {
+  robot.respond(/what is your favourite (.*)/i, function (msg) {
     let fav
     fav = msg.match[1]
     console.log(fav)
@@ -61,8 +71,8 @@ module.exports = function (robot) {
 //   fav = msg.match[1];
 //   console.log(fav);
 //   switch (fav) {
-//     case "food":
-//       return msg.reply("I'm a robot--I don't eat food!");
+//     case "":
+//       return msg.reply("I'm a robot--I don't eat !");
 //       break;
 //     case "band":
 //       return msg.reply("It's gotta be Daft Punk!");
