@@ -21,6 +21,13 @@ module.exports = function (robot) {
     return msg.send("I love writing code! It's my favourite thing ever!")
   })
 
+  robot.hear(/zoom/i, function (msg) {
+    if (!process.env.ZOOM_LINK) {
+      return
+    }
+    return msg.send(`The zoom link for the class is: ${process.env.ZOOM_LINK}`)
+  })
+
   robot.respond(/hi|hello|hey+a|howdy/i, function (msg) {
     return msg.send('Howdy!')
   })
