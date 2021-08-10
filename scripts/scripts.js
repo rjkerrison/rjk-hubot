@@ -51,10 +51,10 @@ module.exports = function (robot) {
 
   robot.respond(/shuffle (\d+) (((.*),)*(.*))/i, function (msg) {
     const groupSize = msg.match[1]
-    const list = msg.match[2].split(',')
+    const list = msg.match[2].split(',').map((x) => x.trim())
 
     const groups = shuffle(groupSize, list).map((g) => g.join(', '))
-    return msg.send(`The groups are:\n  ${groups.join('\n- ')}`)
+    return msg.send(`The groups are:\n- ${groups.join('\n- ')}`)
   })
 
   robot.respond(/hi|hello|hey+a|howdy/i, function (msg) {
@@ -78,7 +78,7 @@ module.exports = function (robot) {
 
   /* Random Example
     If a user asks what is your favourite x, the bot respond according to the question */
-  robot.respond(/what is your favourite (.*)\?*/i, function (msg) {
+  robot.respond(/what is your favourite ([^?]*)\?*/i, function (msg) {
     const fav = msg.match[1]
     switch (fav) {
       case 'food':
