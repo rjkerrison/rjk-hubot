@@ -14,6 +14,27 @@
 //   hubot recall - recalls the things previously memorised
 //   hubot what is your favourite <something> - replies with robot's favourite something
 
+function shuffle(groupSize, inputList) {
+  const groups = []
+  let list = [...inputList]
+  while (list.length >= groupSize) {
+    const group = []
+    while (group.length < groupSize) {
+      const index = Math.floor(Math.random() * list.length)
+      group.push(list.splice(index, 1))
+    }
+    groups.push(group)
+  }
+  // Any spares get randomly distributed
+  while (list.length > 0) {
+    const index = Math.floor(Math.random() * groups.length)
+    const group = groups[index]
+    const item = list.pop()
+    group.push(item)
+  }
+  return groups
+}
+
 module.exports = function (robot) {
   //  YOUR CODE HERE
   //  Example
@@ -26,6 +47,14 @@ module.exports = function (robot) {
       return
     }
     return msg.send(`The zoom link for the class is: ${process.env.ZOOM_LINK}`)
+  })
+
+  robot.respond(/shuffle (\d+) (((.*),)*(.*))/i, function (msg) {
+    const groupSize = msg.match[1]
+    const list = msg.match[2].split(',')
+
+    const groups = shuffle(groupSize, list).map((g) => g.join(', '))
+    return msg.send(`The groups are:\n  ${groups.join('\n  ')}`)
   })
 
   robot.respond(/hi|hello|hey+a|howdy/i, function (msg) {
