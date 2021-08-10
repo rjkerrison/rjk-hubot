@@ -54,14 +54,14 @@ module.exports = function (robot) {
     const list = msg.match[2].split(',')
 
     const groups = shuffle(groupSize, list).map((g) => g.join(', '))
-    return msg.send(`The groups are:\n  ${groups.join('\n  ')}`)
+    return msg.send(`The groups are:\n  ${groups.join('\n- ')}`)
   })
 
   robot.respond(/hi|hello|hey+a|howdy/i, function (msg) {
     return msg.send('Howdy!')
   })
 
-  robot.hear(/lie/i, function (msg) {
+  robot.hear(/\blie\b|\blying\b/i, function (msg) {
     return msg.send('I like big bots and I cannot lie!')
   })
 
@@ -69,28 +69,26 @@ module.exports = function (robot) {
   robot.respond(/memorise (.*)/i, function (msg) {
     const token = msg.match[1]
     memorisedThings.push(token)
-    return msg.send('Okay, I will remember ' + token)
+    return msg.send(`Okay, I will remember ${token}`)
   })
 
   robot.respond(/recall/i, function (msg) {
-    return msg.send(memorisedThings.join('\n'))
+    return msg.send(memorisedThings.join('\n- '))
   })
 
   /* Random Example
     If a user asks what is your favourite x, the bot respond according to the question */
-  robot.respond(/what is your favourite (.*)/i, function (msg) {
-    let fav
-    fav = msg.match[1]
-    console.log(fav)
+  robot.respond(/what is your favourite (.*)\?*/i, function (msg) {
+    const fav = msg.match[1]
     switch (fav) {
       case 'food':
-        return msg.reply("I'm a robot--I don't eat food!")
+        return msg.reply("I'm a robot – I don't eat food!")
       case 'band':
         return msg.reply("It's gotta be Daft Punk!")
       case 'programming language':
         return msg.reply('Javascript, of course!')
       default:
-        return msg.reply("I don't have a favourite " + fav + ". What's yours?")
+        return msg.reply(`I don't have a favourite ${fav}. What's yours?`)
     }
   })
 }
